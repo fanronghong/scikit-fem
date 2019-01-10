@@ -5,3 +5,6 @@ __pycache__/
 *.vtu
 
 *~
+
+.idea/
+.venv/

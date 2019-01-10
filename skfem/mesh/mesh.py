@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib
+matplotlib.use('ps') # https://matplotlib.org/api/matplotlib_configuration_api.html
 import matplotlib.pyplot as plt
 import warnings
 
@@ -314,9 +316,9 @@ class Mesh():
         """
 
         if cls.meshio_type in meshdata.cells:
-            p = np.ascontiguousarray(cls.strip_extra_coordinates(meshdata.points).T)
+            p = np.ascontiguousarray(cls.strip_extra_coordinates(meshdata.points).T) # 读取Gmsh网格后，在这里转换成能够使用的数据格式
             t = np.ascontiguousarray(meshdata.cells[cls.meshio_type].T)
-            mesh = cls(p, t)
+            mesh = cls(p, t) # FIXME 重要！！！ 这里转换为 程序能够 识别的 格式，包括计算mappings等等。从这里可以看出：给定任何软件生成的mesh，最后在有限元程序中都会转换成有限元程序自己定义的数据格式才能assemble.在自己的程序中可以使用这个技巧
             mesh.external = meshdata
             
             # load submeshes, currently gmsh only
